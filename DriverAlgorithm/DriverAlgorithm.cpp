@@ -2,7 +2,6 @@
 #include <vector>
 #include <string>
 #include "main.h"
-#include <time.h>
 
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 

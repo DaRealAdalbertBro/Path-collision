@@ -20,14 +20,23 @@ void PrintVector(T &v) {
 int main()
 {
 
-    std::pair<int, int> coords = intersection({ -5, 1 }, { -1, 1 }, { 1, 1 }, { 5, 1 });
-    if (coords.first == INT_MAX) std::cout << false << std::endl << std::endl;
-    else std::cout << "X: " << coords.first << std::endl << "Y: " << coords.second << std::endl << std::endl;
+//    std::pair<int, int> coords = intersection({ 3, -2 }, { 3, 4 }, { 1, 2 }, { 7, 2 });
+//    if (coords.first == INT_MAX) std::cout << false << std::endl << std::endl;
+//    else std::cout << "X: " << coords.first << std::endl << "Y: " << coords.second << std::endl << std::endl;
 
     load();
 
     for (const auto& value : driver1) {
-        std::cout << value.a1 << ", ";
+        std::cout << "DRIVER: " << value.a1 << ", ";
+        std::cout << value.a2 << ", ";
+        std::cout << value.b1 << ", ";
+        std::cout << value.b2 << std::endl << std::endl;
+    }
+
+
+
+    for (const auto& value : driver2) {
+        std::cout << "ANOTHER: " << value.a1 << ", ";
         std::cout << value.a2 << ", ";
         std::cout << value.b1 << ", ";
         std::cout << value.b2 << std::endl << std::endl;

@@ -2,6 +2,9 @@
 #include <vector>
 #include <string>
 #include "main.h"
+#include <time.h>
+
+HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 void throwError(std::string err_string) {
     std::cerr << err_string << std::endl;
@@ -9,39 +12,28 @@ void throwError(std::string err_string) {
 }
 
 template<typename T>
-void PrintVector(T &v) {
+void PrintVector(T& v) {
     for (int i = 0; i < v.size(); ++i)
         std::cout << v[i] << ((i == v.size() - 1) ? "" : ",");
     std::cout << "\n\n";
 }
 
-
-
 int main()
 {
+    clock_t tStart = clock();
+    
+    startProcess();
 
-//    std::pair<int, int> coords = intersection({ 3, -2 }, { 3, 4 }, { 1, 2 }, { 7, 2 });
-//    if (coords.first == INT_MAX) std::cout << false << std::endl << std::endl;
-//    else std::cout << "X: " << coords.first << std::endl << "Y: " << coords.second << std::endl << std::endl;
+    double tEnd = (double)(clock() - tStart) / CLOCKS_PER_SEC;
 
-    load();
-
-    for (const auto& value : driver1) {
-        std::cout << "DRIVER: " << value.a1 << ", ";
-        std::cout << value.a2 << ", ";
-        std::cout << value.b1 << ", ";
-        std::cout << value.b2 << std::endl << std::endl;
-    }
-
-
-
-    for (const auto& value : driver2) {
-        std::cout << "ANOTHER: " << value.a1 << ", ";
-        std::cout << value.a2 << ", ";
-        std::cout << value.b1 << ", ";
-        std::cout << value.b2 << std::endl << std::endl;
-    }
-
+    SetConsoleTextAttribute(hConsole, 8);
+    std::cout << "\n---------------------------";
+    SetConsoleTextAttribute(hConsole, 7);
+    std::cout << "\n Execution time: ";
+    SetConsoleTextAttribute(hConsole, 11);
+    std::cout << tEnd << "s";
+    SetConsoleTextAttribute(hConsole, 8);
+    std::cout << "\n---------------------------\n";
 
     std::cin.get();
 

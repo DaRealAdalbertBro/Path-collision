@@ -1,14 +1,21 @@
 #include <vector>
 #include "main.h"
 
-std::pair<int, int> intersection(std::pair<int, int> A, std::pair<int, int> B, std::pair<int, int> C, std::pair<int, int> D)
+static bool ccw(std::pair<int, int>& A, std::pair<int, int>& B, std::pair<int, int>& C) {
+    return (C.second - A.second) * (B.first - A.first) > (B.second - A.second) * (C.first - A.first);
+}
+
+std::pair<int, int> intersectionCoords(std::pair<int, int> A, std::pair<int, int> B, std::pair<int, int> C, std::pair<int, int> D)
 {
     //  A1   A2    B1  B2   C1  C2      D1  D2
     // { -2, 2 }, { 4, 2 }, { 3, -3 }, { 3, 4 }
 
-    if ((A.first != B.first && A.second != B.second) || (C.first != D.first && C.second != D.second)) {
+    if ((A.first != B.first && A.second != B.second)
+        || (C.first != D.first && C.second != D.second)
+        || (!(ccw(A, C, D) != ccw(B, C, D) && ccw(A, B, C) != ccw(A, B, D))))
         return std::make_pair(INT_MAX, INT_MAX);
-    }
+        
+    
 
     // Line AB represented as a1*x + b1*y = c1
     int a1 = B.second - A.second;
@@ -32,7 +39,7 @@ std::pair<int, int> intersection(std::pair<int, int> A, std::pair<int, int> B, s
 
             else if (C.second <= B.second)         // upper line
                 return std::make_pair(C.first, C.second);
-            
+
             else if (D.second <= B.second)      // bottom line
                 return std::make_pair(D.first, D.second);
 
@@ -47,7 +54,7 @@ std::pair<int, int> intersection(std::pair<int, int> A, std::pair<int, int> B, s
             else if (C.first <= B.first)         // upper line
                 return std::make_pair(C.first, C.second);
 
-            else if (D.first <= B.first)      // bottom line
+            else if (D.first <= B.first)        // bottom line
                 return std::make_pair(D.first, D.second);
 
             return std::make_pair(INT_MAX, INT_MAX);
@@ -60,7 +67,7 @@ std::pair<int, int> intersection(std::pair<int, int> A, std::pair<int, int> B, s
 
         if ((A.first == B.first && (A.second <= y && y <= B.second) || (A.first <= x && x <= B.first))
             || (C.first == D.first && (C.second <= y && y <= D.second) || (C.first <= x && x <= D.first)))
-                return std::make_pair(x, y);
+            return std::make_pair(x, y);
 
 
         return std::make_pair(INT_MAX, INT_MAX);

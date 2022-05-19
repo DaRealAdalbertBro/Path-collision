@@ -6,7 +6,9 @@
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 void throwError(std::string err_string) {
+    SetConsoleTextAttribute(hConsole, 12);
     std::cerr << err_string << std::endl;
+    SetConsoleTextAttribute(hConsole, 8);
     exit(EXIT_FAILURE);
 }
 
@@ -35,5 +37,4 @@ int main()
     std::cout << "\n---------------------------\n";
 
     std::cin.get();
-
 }

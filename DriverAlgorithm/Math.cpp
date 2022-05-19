@@ -1,68 +1,48 @@
+#include <iostream>
 #include <vector>
+#include <string>
 #include "main.h"
 
-std::pair<int, int> intersection(std::pair<int, int> A, std::pair<int, int> B, std::pair<int, int> C, std::pair<int, int> D)
+void throwError(std::string err_string) {
+    std::cerr << err_string << std::endl;
+    exit(EXIT_FAILURE);
+}
+
+template<typename T>
+void PrintVector(T &v) {
+    for (int i = 0; i < v.size(); ++i)
+        std::cout << v[i] << ((i == v.size() - 1) ? "" : ",");
+    std::cout << "\n\n";
+}
+
+
+
+int main()
 {
-    //  A1   A2    B1  B2   C1  C2      D1  D2
-    // { -2, 2 }, { 4, 2 }, { 3, -3 }, { 3, 4 }
 
-    if ((A.first != B.first && A.second != B.second) || (C.first != D.first && C.second != D.second)) {
-        return std::make_pair(INT_MAX, INT_MAX);
+//    std::pair<int, int> coords = intersection({ 3, -2 }, { 3, 4 }, { 1, 2 }, { 7, 2 });
+//    if (coords.first == INT_MAX) std::cout << false << std::endl << std::endl;
+//    else std::cout << "X: " << coords.first << std::endl << "Y: " << coords.second << std::endl << std::endl;
+
+    load();
+
+    for (const auto& value : driver1) {
+        std::cout << "DRIVER: " << value.a1 << ", ";
+        std::cout << value.a2 << ", ";
+        std::cout << value.b1 << ", ";
+        std::cout << value.b2 << std::endl << std::endl;
     }
 
-    // Line AB represented as a1*x + b1*y = c1
-    int a1 = B.second - A.second;
-    int b1 = A.first - B.first;
-    int c1 = a1 * A.first + b1 * A.second;
 
-    // Line CD represented as a2*x + b2*y = c2
-    int a2 = D.second - C.second;
-    int b2 = C.first - D.first;
-    int c2 = a2 * C.first + b2 * C.second;
 
-    int determinant = a1 * b2 - a2 * b1;
-
-    if (determinant == 0)
-    {
-        // if lines are on themselves
-        if (A.first == C.first) {               // vertical    |
-
-            if (C.second < A.second && B.second < D.second) // if line is inherit
-                return std::make_pair(A.first, A.second);
-
-            else if (C.second <= B.second)         // upper line
-                return std::make_pair(C.first, C.second);
-            
-            else if (D.second <= B.second)      // bottom line
-                return std::make_pair(D.first, D.second);
-
-            return std::make_pair(INT_MAX, INT_MAX);
-
-        }
-        else if (A.second == C.second) {        // horizontal    --
-
-            if (C.first < A.first && B.first < D.first)     // if line is inherit
-                return std::make_pair(A.first, A.second);
-
-            else if (C.first <= B.first)         // upper line
-                return std::make_pair(C.first, C.second);
-
-            else if (D.first <= B.first)      // bottom line
-                return std::make_pair(D.first, D.second);
-
-            return std::make_pair(INT_MAX, INT_MAX);
-        }
-        else return std::make_pair(INT_MAX, INT_MAX);
+    for (const auto& value : driver2) {
+        std::cout << "ANOTHER: " << value.a1 << ", ";
+        std::cout << value.a2 << ", ";
+        std::cout << value.b1 << ", ";
+        std::cout << value.b2 << std::endl << std::endl;
     }
-    else {
-        int x = (b2 * c1 - b1 * c2) / determinant;
-        int y = (a1 * c2 - a2 * c1) / determinant;
-
-        if ((A.first == B.first && (A.second <= y && y <= B.second) || (A.first <= x && x <= B.first))
-            || (C.first == D.first && (C.second <= y && y <= D.second) || (C.first <= x && x <= D.first)))
-                return std::make_pair(x, y);
 
 
-        return std::make_pair(INT_MAX, INT_MAX);
-    }
+    std::cin.get();
+
 }

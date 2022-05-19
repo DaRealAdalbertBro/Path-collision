@@ -17,6 +17,7 @@ std::vector<std::string> processDataToSolution(std::string& text, const char& se
     for (int i = 0; i <= text.length(); i++) {
 
         if (text[i] == separator || i == text.length()) {
+            if (temp.size() == 0) throwError("Invalid track format given");
 
             if (separator == ',' && temp.back() != 'W' && temp.back() != 'E' && temp.back() != 'S' && temp.back() != 'N')
                 throwError("Invalid track format given");
@@ -214,7 +215,7 @@ void startProcess() {
     std::ifstream file("Data.txt");
     std::string fileContent;
 
-    if (!file.is_open()) throwError("Couldn't open the Data.txt file");
+    if (!file.is_open()) throwError("Couldn't find the Data.txt file");
 
     int line = 0;
     while (std::getline(file, fileContent)) {
@@ -230,7 +231,11 @@ void startProcess() {
         else if (line == 1) processDataToSolution(fileContent, ',', line);
         else if (line == 2) {
             processDataToSolution(fileContent, ',', line);
-            if (solution.size() == 0) std::cout << "No solutions found!\n";
+            if (solution.size() == 0) {
+                SetConsoleTextAttribute(hConsole, 12);
+                std::cout << "No solutions found!\n";
+                SetConsoleTextAttribute(hConsole, 8);
+            }
             else {
                 
                 SetConsoleTextAttribute(hConsole, 8);

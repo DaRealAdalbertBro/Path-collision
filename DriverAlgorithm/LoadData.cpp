@@ -30,25 +30,25 @@ std::vector<std::string> processDataToSolution(std::string& text, const char& se
 
                     if (currentDirection == 'W') {
                         if (currentStepCount > interval[0])
-                            driver1.emplace_back(lastPosition.first - (interval[0] - (currentStepCount - currentToMove)), lastPosition.second, lastPosition.first - currentToMove, lastPosition.second);
+                            driver1.emplace_back(lastPosition.first - (interval[0] - lastPosition.first), lastPosition.second, lastPosition.first - currentToMove, lastPosition.second);
 
                         lastPosition.first -= currentToMove;
                     }
                     else if (currentDirection == 'E') {
                         if (currentStepCount > interval[0])
-                            driver1.emplace_back(lastPosition.first + (interval[0] - (currentStepCount - currentToMove)), lastPosition.second, lastPosition.first + currentToMove, lastPosition.second);
+                            driver1.emplace_back(lastPosition.first + (interval[0] - lastPosition.first), lastPosition.second, lastPosition.first + currentToMove, lastPosition.second);
 
                         lastPosition.first += currentToMove;
                     }
                     else if (currentDirection == 'S') {
                         if (currentStepCount > interval[0])
-                            driver1.emplace_back(lastPosition.first, lastPosition.second - (interval[0] - (currentStepCount - currentToMove)), lastPosition.first, lastPosition.second - currentToMove);
+                            driver1.emplace_back(lastPosition.first, lastPosition.second - (interval[0] - lastPosition.second), lastPosition.first, lastPosition.second - currentToMove);
 
                         lastPosition.second -= currentToMove;
                     }
                     else if (currentDirection == 'N') {
                         if (currentStepCount > interval[0])
-                            driver1.emplace_back(lastPosition.first, lastPosition.second + (interval[0] - (currentStepCount - currentToMove)), lastPosition.first, lastPosition.second + currentToMove);
+                            driver1.emplace_back(lastPosition.first, lastPosition.second + (interval[0] - lastPosition.second), lastPosition.first, lastPosition.second + currentToMove);
 
                         lastPosition.second += currentToMove;
                     }
@@ -93,12 +93,14 @@ std::vector<std::string> processDataToSolution(std::string& text, const char& se
                         if (currentStepCount > interval[0]) {
                             for (const auto& value : driver1) {
                                 std::pair<int, int> coords = intersectionCoords(
-                                    { lastPosition.first - (interval[0] - (currentStepCount - currentToMove)), lastPosition.second }, { lastPosition.first - currentToMove, lastPosition.second },
+                                    { lastPosition.first - (interval[0] - lastPosition.first), lastPosition.second }, { lastPosition.first - currentToMove, lastPosition.second },
                                     { value.a1, value.a2 }, { value.b1, value.b2 }
                                 );
-                                if (coords.first != INT_MAX) solution.emplace_back(coords.first, coords.second);
+                                auto tempStruct = std::find_if(solution.begin(), solution.end(), find_duplicates({ coords.first, coords.second }));
+                                if (coords.first != INT_MAX && solution.end() == tempStruct)
+                                    solution.emplace_back(coords.first, coords.second);
                             }
-                            //std::cout << "" << lastPosition.first - (interval[0] - (currentStepCount - currentToMove)) << " " << lastPosition.second << " " << lastPosition.first - currentToMove << " " << lastPosition.second << "\n\n";
+                            //std::cout << "" << lastPosition.first - (interval[0] - lastPosition.first) << " " << lastPosition.second << " " << lastPosition.first - currentToMove << " " << lastPosition.second << "\n\n";
                         }
                         lastPosition.first -= currentToMove;
                     }
@@ -106,12 +108,14 @@ std::vector<std::string> processDataToSolution(std::string& text, const char& se
                         if (currentStepCount > interval[0]) {
                             for (const auto& value : driver1) {
                                 std::pair<int, int> coords = intersectionCoords(
-                                    { lastPosition.first + (interval[0] - (currentStepCount - currentToMove)), lastPosition.second }, { lastPosition.first + currentToMove, lastPosition.second },
+                                    { lastPosition.first + (interval[0] - lastPosition.first), lastPosition.second }, { lastPosition.first + currentToMove, lastPosition.second },
                                     { value.a1, value.a2 }, { value.b1, value.b2 }
                                 );
-                                if (coords.first != INT_MAX) solution.emplace_back(coords.first, coords.second);
+                                auto tempStruct = std::find_if(solution.begin(), solution.end(), find_duplicates({ coords.first, coords.second }));
+                                if (coords.first != INT_MAX && solution.end() == tempStruct)
+                                    solution.emplace_back(coords.first, coords.second);
                             }
-                            //std::cout << "" << lastPosition.first + (interval[0] - (currentStepCount - currentToMove)) << " " << lastPosition.second << " " << lastPosition.first + currentToMove << " " << lastPosition.second << "\n\n";
+                            //std::cout << "" << lastPosition.first + (interval[0] - lastPosition.first) << " " << lastPosition.second << " " << lastPosition.first + currentToMove << " " << lastPosition.second << "\n\n";
                         }
                         lastPosition.first += currentToMove;
                     }
@@ -119,12 +123,14 @@ std::vector<std::string> processDataToSolution(std::string& text, const char& se
                         if (currentStepCount > interval[0]) {
                             for (const auto& value : driver1) {
                                 std::pair<int, int> coords = intersectionCoords(
-                                    { lastPosition.first, lastPosition.second - (interval[0] - (currentStepCount - currentToMove)) }, { lastPosition.first, lastPosition.second - currentToMove },
+                                    { lastPosition.first, lastPosition.second - (interval[0] - lastPosition.second) }, { lastPosition.first, lastPosition.second - currentToMove },
                                     { value.a1, value.a2 }, { value.b1, value.b2 }
                                 );
-                                if (coords.first != INT_MAX) solution.emplace_back(coords.first, coords.second);
+                                auto tempStruct = std::find_if(solution.begin(), solution.end(), find_duplicates({ coords.first, coords.second }));
+                                if (coords.first != INT_MAX && solution.end() == tempStruct)
+                                    solution.emplace_back(coords.first, coords.second);
                             }
-                            //std::cout << "" << lastPosition.first << " " << lastPosition.second - (interval[0] - (currentStepCount - currentToMove)) << " " << lastPosition.first << " " << lastPosition.second - currentToMove << "\n\n";
+                            //std::cout << "" << lastPosition.first << " " << lastPosition.second - (interval[0] - lastPosition.first) << " " << lastPosition.first << " " << lastPosition.second - currentToMove << "\n\n";
                         }
                         lastPosition.second -= currentToMove;
                     }
@@ -132,12 +138,14 @@ std::vector<std::string> processDataToSolution(std::string& text, const char& se
                         if (currentStepCount > interval[0]) {
                             for (const auto& value : driver1) {
                                 std::pair<int, int> coords = intersectionCoords(
-                                    { lastPosition.first, lastPosition.second + (interval[0] - (currentStepCount - currentToMove)) }, { lastPosition.first, lastPosition.second + currentToMove },
+                                    { lastPosition.first, lastPosition.second + (interval[0] - lastPosition.second) }, { lastPosition.first, lastPosition.second + currentToMove },
                                     { value.a1, value.a2 }, { value.b1, value.b2 }
                                 );
-                                if (coords.first != INT_MAX) solution.emplace_back(coords.first, coords.second);
+                                auto tempStruct = std::find_if(solution.begin(), solution.end(), find_duplicates({ coords.first, coords.second }));
+                                if (coords.first != INT_MAX && solution.end() == tempStruct)
+                                    solution.emplace_back(coords.first, coords.second);
                             }
-                            //std::cout << "" << lastPosition.first << " " << lastPosition.second + (interval[0] - (currentStepCount - currentToMove)) << " " << lastPosition.first << " " << lastPosition.second + currentToMove << "\n\n";
+                            //std::cout << "" << lastPosition.first << " " << lastPosition.second + (interval[0] - lastPosition.first) << " " << lastPosition.first << " " << lastPosition.second + currentToMove << "\n\n";
                         }
                         lastPosition.second += currentToMove;
                     }
@@ -159,7 +167,9 @@ std::vector<std::string> processDataToSolution(std::string& text, const char& se
                                 { lastPosition.first, lastPosition.second }, { lastPosition.first - currentToMove, lastPosition.second },
                                 { value.a1, value.a2 }, { value.b1, value.b2 }
                             );
-                            if (coords.first != INT_MAX) solution.emplace_back(coords.first, coords.second);
+                            auto tempStruct = std::find_if(solution.begin(), solution.end(), find_duplicates({ coords.first, coords.second }));
+                            if (coords.first != INT_MAX && solution.end() == tempStruct)
+                                solution.emplace_back(coords.first, coords.second);
                         }
                         //std::cout << "" << lastPosition.first << " " << lastPosition.second << " " << lastPosition.first - currentToMove << " " << lastPosition.second << "\n\n";
                         lastPosition.first -= currentToMove;
@@ -170,7 +180,9 @@ std::vector<std::string> processDataToSolution(std::string& text, const char& se
                                 { lastPosition.first, lastPosition.second }, { lastPosition.first + currentToMove, lastPosition.second },
                                 { value.a1, value.a2 }, { value.b1, value.b2 }
                             );
-                            if (coords.first != INT_MAX) solution.emplace_back(coords.first, coords.second);
+                            auto tempStruct = std::find_if(solution.begin(), solution.end(), find_duplicates({ coords.first, coords.second }));
+                            if (coords.first != INT_MAX && solution.end() == tempStruct)
+                                solution.emplace_back(coords.first, coords.second);
                         }
                         //std::cout << "" << lastPosition.first << " " << lastPosition.second << " " << lastPosition.first + currentToMove << " " << lastPosition.second  << "\n\n";
                         lastPosition.first += currentToMove;
@@ -182,7 +194,9 @@ std::vector<std::string> processDataToSolution(std::string& text, const char& se
                                 { lastPosition.first, lastPosition.second }, { lastPosition.first, lastPosition.second - currentToMove },
                                 { value.a1, value.a2 }, { value.b1, value.b2 }
                             );
-                            if (coords.first != INT_MAX) solution.emplace_back(coords.first, coords.second);
+                            auto tempStruct = std::find_if(solution.begin(), solution.end(), find_duplicates({ coords.first, coords.second }));
+                            if (coords.first != INT_MAX && solution.end() == tempStruct)
+                                solution.emplace_back(coords.first, coords.second);
                         }
                         //std::cout << "" << lastPosition.first << " " << lastPosition.second << " " << lastPosition.first << " " << lastPosition.second - currentToMove << "\n\n";
                         lastPosition.second -= currentToMove;
@@ -194,7 +208,9 @@ std::vector<std::string> processDataToSolution(std::string& text, const char& se
                                 { lastPosition.first, lastPosition.second }, { lastPosition.first, lastPosition.second + currentToMove },
                                 { value.a1, value.a2 }, { value.b1, value.b2 }
                             );
-                            if (coords.first != INT_MAX) solution.emplace_back(coords.first, coords.second);
+                            auto tempStruct = std::find_if(solution.begin(), solution.end(), find_duplicates({ coords.first, coords.second }));
+                            if (coords.first != INT_MAX && solution.end() == tempStruct)
+                                solution.emplace_back(coords.first, coords.second);
                         }
                         //std::cout << "" << lastPosition.first << " " << lastPosition.second << " " << lastPosition.first << " " << lastPosition.second + currentToMove << "\n\n";
                         lastPosition.second += currentToMove;

@@ -13,7 +13,15 @@ struct driverStruct {
 
 struct solutionStruct {
     int xCoord, yCoord;
-    solutionStruct(int xCoord, int yCoord) : xCoord(xCoord), yCoord(yCoord) {}
+    solutionStruct(int xCoord, int yCoord) : xCoord(xCoord), yCoord(yCoord) {};
+};
+
+struct find_duplicates : std::unary_function<solutionStruct, bool> {
+    int x, y;
+    find_duplicates(int& x, int& y) : x(x), y(y) {};
+    bool operator()(solutionStruct const& structure) const {
+        return structure.xCoord == x && structure.yCoord == y;
+    }
 };
 
 extern std::array<int, 2> interval;

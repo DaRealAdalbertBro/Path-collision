@@ -15,7 +15,7 @@
 
 // OTHER
 #define PROCESS_TIME true	// Show & process execution time
-#define DEFAULT_DATA_DIRECTORY "Data.txt"	// default Data.txt file directory
+#define DEFAULT_DATA_DIRECTORY R"(Data.txt)"	// default Data.txt file directory
 #define RESULT_LIMIT 5	// Limiting the number of solutions
 
 // LANG

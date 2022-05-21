@@ -48,6 +48,8 @@ void visualizeAlgorithm() {
     driver2.setpos(V_OFFSET_X, V_OFFSET_Y);
     driver2.pendown();
 
+    scr.tracer(V_ANIMATION_SKIP_FRAMES, V_ANIMATION_SKIP_FRAMES_DELAY);
+
     solutionPoints.speed(V_SPEED);
     solutionPoints.pencolor({ V_SOLUTION_POINTS_COLOR });
     solutionPoints.penup();

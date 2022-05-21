@@ -11,17 +11,23 @@ std::vector<solutionStruct> solution;
 std::vector<std::string> processDataToSolution(std::string& text, const char& separator, unsigned short int& line) {
     std::string temp = "";
     std::vector<std::string> output;
-    //                                   x  y
     std::pair<int, int> lastPosition = { 0, 0 };
+    int numberOfLetters = 0;    // number of duplicates - error handling
     int currentStepCount = 0;   // distance travelled
     for (int i = 0; i <= text.length(); i++) {
-
         if (text[i] == separator || i == text.length()) {
             if (temp.size() == 0) throwError(L_INVALID_TRACK_FORMAT, { line, i });
-            
+
+             for (const auto& character : temp) {
+                if (character == 'W' || character == 'E' || character == 'S' || character == 'N') numberOfLetters++;
+                if (numberOfLetters == 2) throwError(L_INVALID_TRACK_FORMAT, { line, i });
+            }
+
             // track format validation
             if (separator == ',' && temp.back() != 'W' && temp.back() != 'E' && temp.back() != 'S' && temp.back() != 'N')
                 throwError(L_INVALID_TRACK_FORMAT, { line, i });
+
+           
 
             // create an array of driver1 intervals
             else if (line == 1) {
@@ -236,6 +242,7 @@ std::vector<std::string> processDataToSolution(std::string& text, const char& se
 
             output.push_back(temp);
             temp = "";
+            numberOfLetters = 0;
         } else temp.push_back(text[i]);
 
     }

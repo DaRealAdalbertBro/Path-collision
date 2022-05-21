@@ -1,15 +1,17 @@
 #pragma once
 
 // VISUALIZATION
-#define VISUALIZATION false	// turn on/off visualization
+#define VISUALIZATION true	// turn on/off visualization
 #define V_DRIVER1_COLOR "blue"	// color of driver1's line
 #define V_DRIVER2_COLOR "green"	// color of driver2's line
 #define V_SOLUTION_POINTS_COLOR "red"	// color of solution points
-#define V_SOLUTION_POINTS_PEN_WIDTH 4	// width of solution points
+#define V_SOLUTION_POINTS_PEN_WIDTH 15	// width of solution points
 #define V_SPEED ct::TS_FASTEST	// visualization speed
-#define V_SCALE 0.06	// view - scale
-#define V_OFFSET_X -200	// view - offset X
-#define V_OFFSET_Y -200	// view - offset Y
+#define V_SCALE 0.05	// view - scale						// try using 0.2,
+#define V_OFFSET_X -200	// view - offset X					// -1000,
+#define V_OFFSET_Y -200	// view - offset Y					// -1200
+#define V_ANIMATION_SKIP_FRAMES 20	// skip animation frames - set 0 to disable.
+#define V_ANIMATION_SKIP_FRAMES_DELAY 1	// delay between the next move [ms]
 
 // OTHER
 #define PROCESS_TIME true	// Show & process execution time

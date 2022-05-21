@@ -7,8 +7,8 @@ HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 void throwError(const std::string &err_string, const std::pair<unsigned int, unsigned int> &line) {
     SetConsoleTextAttribute(hConsole, 12);
-    if(line.second != INT_MAX) std::cerr << "FATAL ERROR: " << err_string << " Line " << line.first << ":" << line.second;
-    std::cerr << err_string << "\n";
+    if(line.second != INT_MAX) std::cerr << "FATAL ERROR: " << err_string << " Line " << line.first << ":" << line.second << "\n";
+    else std::cerr << err_string << "\n";
 
     SetConsoleTextAttribute(hConsole, 8);
     exit(EXIT_FAILURE);
@@ -37,16 +37,27 @@ int main() {
 
 
 #if VISUALIZATION == true
-    char answer;
-    SetConsoleTextAttribute(hConsole, 7);
-    std::cout << "\n" << L_VISUALIZATION <<"\n";
-    std::cin >> answer;
-    if (tolower(answer) == 'y')
-        visualizeAlgorithm();
 
-    SetConsoleTextAttribute(hConsole, 8);
+    SetConsoleTextAttribute(hConsole, 12);
+    std::cout << "\n\nNOTE: ";
+
+    SetConsoleTextAttribute(hConsole, 4);
+    std::cout << "the visualization is not 100% accurate due to the scale property in the settings (default value is 0.05), but if there is a shift, break points are circlered.";
+    
+    SetConsoleTextAttribute(hConsole, 7);
+    std::cout << "\n" << L_VISUALIZATION << "\n";
+
+    while (true) {
+        if (GetAsyncKeyState(0x59)) {
+            visualizeAlgorithm();
+            break;
+        }
+        else if (GetAsyncKeyState(0x4E)) break;
+        Sleep(100);
+    }
 
 #endif
 
+    SetConsoleTextAttribute(hConsole, 8);
     std::cin.get();
 }
